@@ -52,31 +52,22 @@ class product_template(orm.Model):
     def write(self, cr, uid, ids, vals, context=None):
         if not hasattr(ids, '__iter__'):
             ids = [ids]
-        products_without_code = self.search(
-                cr, uid,
-                [('template_code', 'in', [False, '/']),
-                 ('id', 'in', ids)],
-                context=context)
-        direct_write_ids = set(ids) - set(products_without_code)
-        super(product_template, self).write(cr, uid,
-                                           list(direct_write_ids),
-                                           vals, context=context)
-        for product_id in products_without_code:
-            vals['template_code'] = self.pool.get('ir.sequence').get(
-                    cr, uid, 'product.template')
-            super(product_template, self).write(cr, uid,
-                                               product_id,
-                                               vals,
-                                               context=context)
+        # templates_without_code = self.search( cr, uid, [('template_code', 'in', [False, '/']), ('id', 'in', ids)], context=context)
+        # direct_write_ids = set(ids) - set(templates_without_code)
+        vals['template_code'] = self.pool.get('ir.sequence').get( cr, uid, 'product.template')
+        super(product_template, self).write(cr, uid, ids, vals, context=context)
+        # super(product_template, self).write(cr, uid, list(direct_write_ids), vals, context=context)
+        # for template_id in templates_without_code:
+        #     vals['template_code'] = self.pool.get('ir.sequence').get( cr, uid, 'product.template')
+        #     super(product_template, self).write(cr, uid, template_id, vals, context=context)
         return True
 
     def copy(self, cr, uid, id, default=None, context=None):
         if default is None:
             default = {}
-        product = self.read(cr, uid, id, ['template_code'], context=context)
-        if product['template_code']:
+        product_template = self.read(cr, uid, id, ['template_code'], context=context)
+        if product_template['template_code']:
             default.update({
-                'template_code': product['template_code'] + _('-copy'),
+                'template_code': product_template['template_code'] + _('-copy'),
             })
-
         return super(product_template, self).copy(cr, uid, id, default, context)
