@@ -32,6 +32,7 @@ This module will add categories to the product template view.
     """,
     'depends' : [
         'product', 
+        'product_m2mcategories', 
     ],
     "data" : [
         'product_template_category_view.xml',
