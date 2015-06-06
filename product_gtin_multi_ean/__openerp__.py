@@ -24,12 +24,12 @@
     "author": "Goran Sunjka, Odoo Community Association (OCA)",
     "website": "http://www.sunjka.de",
     "category": "Warehouse",
-    "depends": ["product_gtin", "product_multi_ean"],
+    "depends": ["product_multi_ean", "product_gtin"],
     "description": """
 Product GTIN multi EAN module
 ===================
 
-Replaces the check of multiple EAN13 fields with a check for EAN13, EAN8, JPC, UPC and GTIN.
+Replaces the check of multiple EAN13 fields with a check for EAN13, EAN8, JPC, UPC and GTIN. It uses parts of the module product_multi_ean written by camptocamp, http://www.camptocamp.com
     """,
     "demo": [],
     "data": [],

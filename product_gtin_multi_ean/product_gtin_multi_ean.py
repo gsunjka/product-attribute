@@ -19,5 +19,18 @@
 #
 ##############################################################################
 
+from openerp.osv import orm, fields
 from openerp.addons.product_gtin import product_gtin as addon_product
 
+class ProductEan13(orm.Model):
+    _inherit = 'product.ean13'
+
+    def _check_ean_key(self, cr, uid, ids):
+        res = False
+        for ean in self.browse(cr, uid, ids):
+            res = addon_product.check_ean(ean.name)
+            if not res:
+                return res
+        return res
+
+    _constraints = [(_check_ean_key, 'Error: Invalid ean code', ['name'])]
